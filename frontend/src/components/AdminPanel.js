@@ -1,36 +1,43 @@
 import React from "react";
 import { TokenForm } from "./TokenForm";
 
-export function AdminPanel({ voting, codinomes, issueToken, setVoting }) {
+export function AdminPanel({ voting, codinomes, issueToken, setVoting, busy, symbol }) {
   return (
-    <div className="card border-warning mb-3">
-      <div className="card-header bg-warning">
-        <b>Painel do superusuário</b>
-      </div>
-      <div className="card-body">
-        <p>
-          Votação:{" "}
-          {voting ? (
-            <span className="badge badge-success">ATIVA</span>
-          ) : (
-            <span className="badge badge-secondary">PAUSADA</span>
-          )}
-        </p>
-        <button className="btn btn-success mr-2 mb-3" onClick={() => setVoting(true)} disabled={voting}>
-          votingOn
-        </button>
-        <button className="btn btn-secondary mb-3" onClick={() => setVoting(false)} disabled={!voting}>
-          votingOff
-        </button>
+    <div className="tur-card tur-card-admin">
+      <h5>Painel do superusuário</h5>
+      <div className="tur-sub">Disponível apenas para o owner e a professora.</div>
 
-        <TokenForm
-          title="Emitir Turings (issueToken)"
-          buttonLabel="issueToken"
-          buttonClass="btn-warning"
-          codinomes={codinomes}
-          onSubmit={issueToken}
-        />
+      <div className="d-flex flex-wrap align-items-center mb-4" style={{ gap: 10 }}>
+        <span className="mr-1">Votação:</span>
+        <span className={voting ? "tur-badge-on" : "tur-badge-off"}>{voting ? "ATIVA" : "PAUSADA"}</span>
+        <div className="ml-auto">
+          <button
+            className="btn btn-outline-success btn-sm mr-2"
+            onClick={() => setVoting(true)}
+            disabled={voting || busy}
+          >
+            ▶ votingOn
+          </button>
+          <button
+            className="btn btn-outline-danger btn-sm"
+            onClick={() => setVoting(false)}
+            disabled={!voting || busy}
+          >
+            ⏸ votingOff
+          </button>
+        </div>
       </div>
+
+      <TokenForm
+        title="Emitir Turings"
+        subtitle="issueToken: cria novos Turings na carteira do aluno escolhido."
+        buttonLabel="Emitir Turings"
+        buttonClass="btn-tur-accent"
+        codinomes={codinomes}
+        busy={busy}
+        symbol={symbol}
+        onSubmit={issueToken}
+      />
     </div>
   );
 }
