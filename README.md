@@ -22,10 +22,27 @@ Eventos: `Transfer`, `Voted`, `TokenIssued`, `VotingStatus`, `UserUpdated`.
 
 ## Frontend (`frontend/`)
 
-- **Usuário comum**: formulário para votar (escolhe um aluno e a quantidade).
-- **Superusuário** (owner ou professora): além do voto, painel com `issueToken`, `votingOn` e `votingOff`.
-- Os campos de codinome listam só os alunos (a professora fica de fora; no voto, o próprio usuário também).
+Feito em React a partir do boilerplate da Atividade 12, com ethers.js e Bootstrap.
+
+**Funcionalidades**
+
+- **Usuário comum**: formulário para votar (escolhe um aluno e a quantidade, até 2 TUR).
+- **Superusuário** (owner ou professora): além do voto (se estiver na tabela), painel com `issueToken`, `votingOn` e `votingOff`.
+- Os campos de codinome listam só os alunos: a professora fica de fora e, no voto, o próprio usuário também.
 - **Ranking** por ordem de Turings: polling em `balanceOf()` a cada 2 s e atualização imediata ao receber os eventos `Voted`, `TokenIssued` e `VotingStatus`.
+
+**Interface**
+
+- **Tela de conexão** com o passo a passo (node, deploy, conta no MetaMask). Ao clicar em *Conectar carteira*, o botão mostra "Aguardando o MetaMask…" e uma dica para abrir a extensão e aprovar.
+- **Troca automática de rede**: se o MetaMask não estiver na rede Hardhat Local (chainId 31337), a dApp pede a troca e cadastra a rede se ela ainda não existir.
+- **Mensagens de erro na conexão**: pedido pendente no MetaMask, conexão recusada ou contrato não publicado na rede.
+- **Barra superior** com rede, codinome, endereço e indicação de superusuário.
+- **Cartões de resumo**: saldo da conta, total emitido (`totalSupply`), status da votação e votos dados, com o progresso até o próximo prêmio de 1 TUR.
+- **Avisos de transação** em cada etapa: confirmar no MetaMask → aguardando a blockchain → sucesso ou erro. Os erros dos `require` do contrato aparecem em português claro (ex.: "Você já votou nesse aluno.").
+- **Validação no formulário**: alunos que já receberam seu voto aparecem como "já votado" e ficam desabilitados; quantidades fora do intervalo são avisadas antes do envio; o formulário limpa após uma transação bem-sucedida.
+- **Ranking visual** com medalhas para os três primeiros e barras proporcionais ao líder.
+- **Atividade recente**: histórico de votos, emissões e pausas lido dos eventos do contrato (`queryFilter`) e atualizado em tempo real.
+- Layout responsivo (funciona em telas pequenas).
 
 ## Como rodar
 
